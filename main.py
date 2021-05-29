@@ -3,6 +3,9 @@ from lib.first_reaction import *
 import shutil
 import os
 import numpy as np
+from lib.get_diversity import *
+from lib.get_complexity import *
+from lib.get_dominant import *
 
 def get_savestr(h_array,p_array,h_map,p_map,savetime,cfg):
     host_phenos = np.where(h_array==-1,-1,h_map[h_array])
@@ -63,7 +66,10 @@ def main():
             print("t=%f out of %f" % (savetime,config.runtime))
 
     outfile.write(get_savestr(h_array,p_array,h_map,p_map,config.runtime,config))
-        
+    outfile.close()
+    save_diversity(*get_diversity("output/pheno_pops.csv"))
+    save_complexity(*get_complexity("output/pheno_pops.csv","config/host_gptable.csv","config/para_gptable.csv"))
+    save_dominant(*get_dominant("output/pheno_pops.csv"))
 
         
     
